@@ -50,7 +50,7 @@
           <a href="/">Информация</a>
         
           <a href="/">Контакты</a>
-          <a href="/">О нас</a>
+          <a href="/">Создатели</a>
         </div>
         
       </div>
@@ -114,9 +114,8 @@ export default {
 
 .AuthForminformation{
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-
-  padding-left: 5%;
-  width: 95%;
+  margin-left: 17%;
+  width: 71%;
   font-size: 14px;
   display: flex;
  

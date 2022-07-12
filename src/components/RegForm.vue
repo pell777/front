@@ -67,7 +67,7 @@
           <a href="/">Информация</a>
         
           <a href="/">Контакты</a>
-          <a href="/">О нас</a>
+          <a href="/">Создатели</a>
         </div>
         
         </div>
@@ -135,16 +135,15 @@ export default {
 
 <style>
 .RegForminformation{
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin-left: 17%;
 
-  padding-left: 5%;
-  width: 95%;
+  width: 71%;
   font-size: 14px;
   display: flex;
  
   justify-content: center;
   justify-content: space-between;
-
 }
 .RegForminformation a{
   color: #4d4c4c;
