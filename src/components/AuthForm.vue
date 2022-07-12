@@ -27,9 +27,9 @@
             >
             </vs-input>
           </div>
-
+          <p v-bind:confirm="confirm">{{ confirm }}</p>
           <div class="AuthFormA1">
-            <a href="/regitration">Забыли пароль?</a>
+            <a href="/registration">Забыли пароль?</a>
             <br />
           </div>
           <div class="AuthFormSpace">
@@ -56,25 +56,32 @@ export default {
     return {
       login: "",
       password: "",
+      confirm: "",
     };
   },
 };
 </script>
 
 <style>
+p {
+  color: rgb(255, 0, 0);
+}
+#message-danger {
+  margin-right: 10%;
+}
 .AuthFormSpace a {
   display: flex;
   align-items: flex-end;
 }
 .AuthFormFirstInput {
-  margin-bottom: 6%;
+  margin-bottom: 8%;
 }
 a {
   margin-right: 50px;
 }
 
 .AuthFormAll {
-  background: url(../assets/AuthFormBackground.jpg);
+  background: url(../assets/FormBackground.jpg);
   position: fixed;
   top: 0;
   left: 0;
@@ -136,5 +143,4 @@ a {
 .AuthFormA1 a {
   text-decoration: none;
 }
-
 </style>

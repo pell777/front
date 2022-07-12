@@ -1,18 +1,14 @@
 <template>
   <div>
     <!-- <div class="first"><div class="name">ToDo PrO</div></div> -->
-    <div class="AuthFormAll">
-        
-      <div class="AuthFormLogin">
-        
-       
+    <div class="RegFormAll">
+      <div class="RegFormLogin">
         <h1>ToDo PrO</h1>
-        
-        <p>11111111111111111111111111111</p>
-        <h2>Вход</h2>
-        <div class="AuthFormForm">
-          <div class="AuthFormInput">
-            <div class="AuthFormFirstInput">
+
+        <h2>Регистрация</h2>
+        <div class="RegFormForm">
+          <div class="RegFormInput">
+            <div class="RegFormFirstInput">
               <vs-input
                 label="Логин"
                 type="login"
@@ -22,31 +18,49 @@
               >
               </vs-input>
             </div>
-
-            <vs-input
-              label="Пароль"
-              primary
-              type="password"
-              v-model="password"
-              placeholder="Password"
-            >
-            </vs-input>
+            <div class="RegFormFirstInput">
+              <vs-input
+                label="Email"
+                type="mail"
+                primary
+                v-model="mail"
+                placeholder="Login"
+              >
+              </vs-input>
+            </div>
+            <div class="RegFormFirstInput">
+              <vs-input
+                label="Пароль"
+                primary
+                type="password"
+                v-model="password"
+                placeholder="Password"
+              >
+              </vs-input>
+            </div>
+            <div class="RegFormFirstInput">
+              <vs-input
+                label="Подтвердите пароль"
+                primary
+                type="password"
+                v-model="confirmPassword"
+                placeholder="Confirm password"
+              >
+              </vs-input>
+            </div>
+            <p v-bind:confirm="confirm">{{ confirm }}</p>
           </div>
-
-          <div class="AuthFormA1">
-            <a href="/regitration">Забыли пароль?</a>
-            <br />
-          </div>
-          <div class="AuthFormSpace">
-            <a href="/registration">Создать аккаунт</a>
+          <br />
+          <div class="RegFormSpace">
+            <a href="/">Вход</a>
 
             <vs-button
               color="#000000"
               square
               :active="active == 0"
-              @click="active = 0"
+              @click="(active = 0), register()"
             >
-              Войти
+              Зарегистрироваться
             </vs-button>
           </div>
         </div>
@@ -56,30 +70,74 @@
 </template>
 
 <script>
+const axios = require("axios").default;
 export default {
   data() {
     return {
       login: "",
       password: "",
+      email: "",
+      confirmPassword: "",
+      confirm: "",
     };
+  },
+  methods: {
+    async register() {
+      this.confirm = "";
+      let login = this.login.trim().replace(/\s/g, "");
+      let password = this.password.trim().replace(/\s/g, "");
+      let passwordConfirm = this.confirmPassword.trim().replace(/\s/g, "");
+      if (
+        login.length <= 0 ||
+        password.length <= 0 ||
+        passwordConfirm.length <= 0
+      ) {
+        this.confirm = "Заполните все поля";
+      } else {
+        if (password === passwordConfirm) {
+          try {
+            const check = await axios
+              .get("http://localhost:3000/OneUser", {
+                params: { login: login, email: email },
+              })
+              .then(function (response) {
+                console.log(response.data);
+                return response.data;
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          } catch (error) {
+            console.error(error);
+          }
+          if (!check) {
+            this.confirm = "Регистрация прошла успешно";
+          } else {
+            this.confirm = "Пользователь уже зарегестрирован";
+          }
+        } else {
+          this.confirm = "Пароли не совпадают";
+        }
+      }
+    },
   },
 };
 </script>
 
 <style>
-.AuthFormSpace a {
+.RegFormSpace a {
   display: flex;
   align-items: flex-end;
 }
-.AuthFormFirstInput {
-  margin-bottom: 6%;
+.RegFormFirstInput {
+  margin-bottom: 8%;
 }
 a {
   margin-right: 50px;
 }
 
-.AuthFormAll {
-  background: url(../assets/AuthFormBackground.jpg);
+.RegFormAll {
+  background: url(../assets/FormBackground.jpg);
   position: fixed;
   top: 0;
   left: 0;
@@ -87,16 +145,16 @@ a {
   height: 100%;
   font-size: 15px;
 }
-.AuthFormLogin h1 {
+.RegFormLogin h1 {
   margin-bottom: -2%;
   font-size: 50px;
   text-shadow: 1px 1px 2px rgb(71, 70, 70);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
-.AuthFormLogin h2 {
+.RegFormLogin h2 {
   margin-bottom: 10%;
 }
-.AuthFormLogin {
+.RegFormLogin {
   background: #fffafa;
   border-radius: 8px;
   width: 450px;
@@ -105,15 +163,15 @@ a {
   margin: 15% 0 15% 0;
   display: inline-block;
 }
-.AuthFormInput {
+.RegFormInput {
   display: inline-block;
 }
-.AuthFormInput input {
+.RegFormInput input {
   width: 350px;
   font-size: 20px;
   border: 2px solid #999999;
 }
-.AuthFormSpace {
+.RegFormSpace {
   margin-top: 5%;
   width: 80%;
   margin-left: 10%;
@@ -121,25 +179,24 @@ a {
   justify-content: space-between;
   margin-bottom: 15%;
 }
-.AuthFormSpace a {
+.RegFormSpace a {
   text-decoration: none;
   margin-left: 2%;
   float: left;
   padding-bottom: 1%;
 }
-.AuthFormSpace button {
-  width: 70px;
+.RegFormSpace button {
+  width: 150px;
   height: 35px;
   border-radius: 5px;
   margin: 0%;
 }
-.AuthFormA1 {
+.RegFormA1 {
   display: flex;
   margin-top: 1%;
   margin-left: 13%;
 }
-.AuthFormA1 a {
+.RegFormA1 a {
   text-decoration: none;
 }
-
 </style>
