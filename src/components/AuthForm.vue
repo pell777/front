@@ -39,12 +39,20 @@
               color="#000000"
               square
               :active="active == 0"
-              @click="active = 0"
+              @click="(active = 0), auth()"
             >
               Войти
             </vs-button>
           </div>
         </div>
+       
+        <div class="AuthForminformation">
+          <a href="/">Информация</a>
+        
+          <a href="/">Контакты</a>
+          <a href="/">О нас</a>
+        </div>
+        
       </div>
     </div>
   </div>
@@ -59,10 +67,67 @@ export default {
       confirm: "",
     };
   },
+  methods: {
+    async auth() {
+      this.confirm = " ";
+      let login = this.login.trim().replace(/\s/g, "");
+      let password = this.password.trim().replace(/\s/g, "");
+      console.log(login.length, password.length);
+      if (login.length <= 0 || password.length <= 0) {
+        this.confirm = "Заполните все поля";
+      } else {
+        try {
+          const check = await axios
+            .get("http://localhost:3000/authorization", {
+              params: {
+                login: login,
+                password: password,
+              },
+            })
+            .then(function (response) {
+              return response.data;
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+          if (check === "Логин") {
+            this.confirm = "Пользователь не зарегестрирован";
+          } else if (check === "Пароль") {
+            this.confirm = "Неправильный пароль";
+          } else {
+            if (localStorage.getItem(check)) {
+              this.$router.push("/Main");
+            } else {
+              this.confirm = "Нет Токена";
+            }
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+  },
 };
 </script>
 
 <style>
+
+.AuthForminformation{
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+  padding-left: 5%;
+  width: 95%;
+  font-size: 14px;
+  display: flex;
+ 
+  justify-content: center;
+  justify-content: space-between;
+
+}
+.AuthForminformation a{
+  color: #4d4c4c;
+  text-decoration: none;
+}
 p {
   color: rgb(255, 0, 0);
 }
@@ -104,7 +169,7 @@ a {
   width: 450px;
   min-height: 0%;
   border: 2px solid #c2c3c4;
-  margin: 15% 0 15% 0;
+  margin: 10% 0 10% 0;
   display: inline-block;
 }
 .AuthFormInput {

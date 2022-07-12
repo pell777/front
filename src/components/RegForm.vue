@@ -63,6 +63,13 @@
               Зарегистрироваться
             </vs-button>
           </div>
+          <div class="RegForminformation">
+          <a href="/">Информация</a>
+        
+          <a href="/">Контакты</a>
+          <a href="/">О нас</a>
+        </div>
+        
         </div>
       </div>
     </div>
@@ -85,10 +92,12 @@ export default {
     async register() {
       this.confirm = "";
       let login = this.login.trim().replace(/\s/g, "");
+      let email = this.email.trim().replace(/\s/g, "");
       let password = this.password.trim().replace(/\s/g, "");
       let passwordConfirm = this.confirmPassword.trim().replace(/\s/g, "");
       if (
         login.length <= 0 ||
+        login.email <= 0 ||
         password.length <= 0 ||
         passwordConfirm.length <= 0
       ) {
@@ -125,6 +134,22 @@ export default {
 </script>
 
 <style>
+.RegForminformation{
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+  padding-left: 5%;
+  width: 95%;
+  font-size: 14px;
+  display: flex;
+ 
+  justify-content: center;
+  justify-content: space-between;
+
+}
+.RegForminformation a{
+  color: #4d4c4c;
+  text-decoration: none;
+}
 .RegFormSpace a {
   display: flex;
   align-items: flex-end;
@@ -160,7 +185,7 @@ a {
   width: 450px;
   min-height: 0%;
   border: 2px solid #c2c3c4;
-  margin: 15% 0 15% 0;
+  margin: 10% 0 10% 0;
   display: inline-block;
 }
 .RegFormInput {
@@ -181,7 +206,7 @@ a {
 }
 .RegFormSpace a {
   text-decoration: none;
-  margin-left: 2%;
+  margin-left: 3%;
   float: left;
   padding-bottom: 1%;
 }
