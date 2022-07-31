@@ -27,7 +27,9 @@
             >
             </vs-input>
           </div>
-          <p v-bind:confirm="confirm">{{ confirm }}</p>
+          <div class="AuthFormthisConfirm">
+            <p v-bind:confirm="confirm">{{ confirm }}</p>
+          </div>
           <div class="AuthFormA1">
             <a href="/registration">Забыли пароль?</a>
             <br />
@@ -45,15 +47,29 @@
             </vs-button>
           </div>
         </div>
-       
-        <div class="AuthForminformation">
-          <a href="/">Информация</a>
-        
-          <a href="/">Контакты</a>
-          <a href="/">Создатели</a>
+
+        <div class="center">
+          <p @click="(alertInfo = 'info'), (active = !active), alert()">
+          Информация
+          </p>
+          <p @click="(alertInfo = 'contact'), (active = !active), alert()">
+            Контакты
+          </p>
+          <p @click="(alertInfo = 'about'), (active = !active), alert()" >
+            Создатели
+          </p>
         </div>
-        
       </div>
+
+      <vs-dialog blur v-model="active">
+        <template #header>
+          <h4 v-bind="alertH1" class="not-margin">{{ alertH1 }}</h4>
+        </template>
+
+        <div class="con-form">
+          <p v-bind="alertText">{{ alertText }}</p>
+        </div>
+      </vs-dialog>
     </div>
   </div>
 </template>
@@ -62,12 +78,34 @@
 export default {
   data() {
     return {
+      active: false,
+      input1: "",
+      input2: "",
+      checkbox1: false,
       login: "",
       password: "",
       confirm: "",
+      alertInfo: "",
+      alertText: "",
+      alertH1: "",
     };
   },
   methods: {
+    alert() {
+      if (this.alertInfo === "info") {
+        this.alertH1 = "Инфо";
+        this.alertText = "Это блок информации";
+      } else if (this.alertInfo === "contact") {
+        this.alertH1 = "Контакты";
+
+        this.alertText = "Это блок контактов";
+      } else if (this.alertInfo === "about") {
+        this.alertH1 = "Создатели";
+
+        this.alertText = "Это блок о нас";
+      }
+      console.log(this.alertt);
+    },
     async auth() {
       this.confirm = " ";
       let login = this.login.trim().replace(/\s/g, "");
@@ -90,16 +128,10 @@ export default {
             .catch(function (error) {
               console.log(error);
             });
-          if (check === "Логин") {
-            this.confirm = "Пользователь не зарегестрирован";
-          } else if (check === "Пароль") {
-            this.confirm = "Неправильный пароль";
+          if (!check) {
+            this.confirm = "Неправильный логин или пароль";
           } else {
-            if (localStorage.getItem(check)) {
-              this.$router.push("/Main");
-            } else {
-              this.confirm = "Нет Токена";
-            }
+            this.$router.push("/Main");
           }
         } catch (error) {
           console.log(error);
@@ -111,37 +143,31 @@ export default {
 </script>
 
 <style>
-
-.AuthForminformation{
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  margin-left: 17%;
-  width: 71%;
+.center {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  margin-left: 15%;
+  width: 70%;
   font-size: 14px;
   display: flex;
- 
+  cursor: pointer;
   justify-content: center;
   justify-content: space-between;
-
 }
-.AuthForminformation a{
+
+.AuthForminformation p {
   color: #4d4c4c;
   text-decoration: none;
 }
-p {
+.AuthFormthisConfirm {
   color: rgb(255, 0, 0);
 }
-#message-danger {
-  margin-right: 10%;
-}
+
 .AuthFormSpace a {
   display: flex;
   align-items: flex-end;
 }
 .AuthFormFirstInput {
   margin-bottom: 8%;
-}
-a {
-  margin-right: 50px;
 }
 
 .AuthFormAll {
